@@ -2,6 +2,7 @@ module Bank
   class Account
 
     attr_reader :balance
+    attr_reader :owner
 
     def initialize(id,balance)
       @id = id
@@ -16,7 +17,7 @@ module Bank
      unless (@balance - amt) < 0
        @balance -= amt
      else
-       puts "You can't do that.. You're broke!"
+       puts "There aren't enough funds to complete this transaction."
        return @balance
      end
     end
@@ -25,15 +26,30 @@ module Bank
       @balance += amt
     end
 
-  end
-
-  class Owner
-
-    def initialize(name, address)
-      @name = name
-      @address = address
+    def add_owner(owner)
+      @owner = owner
     end
 
   end
 
+  class Owner
+    attr_accessor :name
+
+    def initialize(name, address, zip)
+      @name = name
+      @address = address
+      @zip = zip
+    end
+
+  end
+  sample = Account.new(001,800)
+  p sample.withdraw(100)
+  p sample.balance
+  p sample.withdraw(1000000)
+  p sample.balance
+  p sample.deposit(1000)
+  p sample.balance
+  sample_owner = Owner.new("Olivia","100 Ada Road")
+  sample.add_owner(sample_owner)
+  p sample.owner
 end
